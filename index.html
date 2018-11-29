@@ -1,0 +1,203 @@
+<html>
+	<head>
+		<meta name="viewport"  content="width=device-width, initial-scale=1" />
+	<title>Bridget Riley Image</title>
+	<style type="text/css">
+		*{
+		box-sizing: border-box;
+		padding: 0;
+		margin: 0px;
+
+	}
+	body{
+		overflow: hidden;
+		width: 100%;
+		height: 100%;
+
+	}
+		
+	.container{
+
+		display: grid;
+		grid-template-columns:1fr;
+		grid-template-rows: 1fr;
+		border:1px solid black;		
+	}
+	canvas{
+		width: 100%;
+		height: 610px;
+		border:1px solid black;	
+	}
+
+
+
+	</style>
+
+	</head>
+	<body>
+		<div class="container">
+		<canvas id="mycanvas" width="1280" height="610">Canvas not supported</canvas>
+
+		<script type="text/javascript">
+
+		var canvas=document.getElementById("mycanvas");
+		var width=window.innerWidth;
+        var height=window.innerHeight;
+        const mq = window.matchMedia("(max-width: 767px)");
+        if (mq.matches) {
+            width =  700;
+            height = 610;
+        } 
+
+       	canvas.width=width;
+		canvas.height=height;
+		var x=canvas.width/2;
+		var y=canvas.height/2;
+		var ctx=canvas.getContext("2d");
+		ctx.fillStyle="white";
+		ctx.fillRect(0,0,canvas.width,canvas.height);
+
+		var a=0,b=0,c=0;
+		 function handleMotionEvent(evt){
+             a = evt.accelerationIncludingGravity.x;
+             b = evt.accelerationIncludingGravity.y;
+             c = evt.accelerationIncludingGravity.z;
+           	// window.requestAnimationFrame(draw); animation working better without requestAnimationFrame.
+           	draw();
+        }
+		
+		function draw()
+		{
+			 drawPattern(x,y,a*5,b*5);
+			
+		}
+        
+        function drawPattern(x,y,a,b){
+        	        	
+        	ctx.clearRect(0,0,canvas.width,canvas.height);
+  	        drawCenterS(x,y,a,b);
+			drawBottomCurvyLines(x,y,a,b);
+			drawUpperFirstTwoCurves(x,y,a,b);
+			drawRightSideCurvyLines(x,y,a,b);
+			drawLeftSideCurvyLines(x,y,a,b);
+			drawMiddleSideCurvyLines(x,y,a,b);
+        }
+
+         function getFillStyle(count) {
+
+            if (count % 2 == 0) {
+                return "white";
+            } else {
+                return "black";
+            }
+        }
+
+		function drawCenterS(x,y,a,b)
+		{	
+			var count=0;
+			for(var i=0,k=0;i<51 && k<51;k+=10,i+=10){
+	   		 	 ctx.beginPath(); 
+	   		 	 ctx.moveTo(x-150-i,y+20+2.5*i);
+	   		 	 ctx.bezierCurveTo(x-100+4*i+2*a,y-80+(i)+2*b,x+60-i+2*a,y-(168-2*i)+2*b,x+150,y-(208-2*i));
+				// right loop
+	   			 ctx.bezierCurveTo(x+480-5.6*i+2*a,y-(300-4*i)+2*b,x+520-5*i+2*a,y-(150)+i+3*b,x+110-i/2, y+(150-2.5*i)  );
+	   			 //left loop
+	   		 	 ctx.moveTo(x-150-i,y+20+2.5*i);
+	   		 	 ctx.bezierCurveTo(x-(180+k*9)+2*a,y+(60+6*k)+2*b,x-(270+6*k)+2*a, y+10+2*b,x-110,y-(40+2*k));
+	   		 	 ctx.strokeStyle=getFillStyle(count);
+	   		 	 count++;
+	   		 	 ctx.lineWidth=25;
+	   		 	 ctx.stroke();
+
+	   		 	}
+		}
+
+		function drawBottomCurvyLines(x,y,a,b)
+		{
+			//bottom curvy lines
+			var count=1;
+			for(var i=0;i<171;i+=10){
+				ctx.beginPath();
+				ctx.moveTo(x+80+i/2,y+20+i);
+				ctx.bezierCurveTo(x-100+i+3*a,y+120+i+3*b,x+10+i-3*a,y+180+4*i-3*b,x-800+i,y+400+2*i);
+				ctx.strokeStyle=getFillStyle(count);
+	   		 	 count++;
+				ctx.lineWidth=40;
+				ctx.stroke();
+
+			}
+		}
+
+		function drawUpperFirstTwoCurves(x,y,a,b) {
+
+			var count=1;
+			for(var i=0;i<11;i+=10)
+			{
+			 ctx.beginPath(); 
+			 ctx.moveTo(x-100-i,y-(100+2*i));
+	   		 ctx.bezierCurveTo(x+500+4*i+3*a,y-(470+4*i)+3*b,x+700+4*i+3*a,y-(250)+3*b,x+140+i, y+150 +2*i );
+			 ctx.strokeStyle=getFillStyle(count);
+	   		 count++;
+	   		 ctx.lineWidth=30;
+	   		 ctx.stroke();
+			}
+			
+		}
+		
+		function drawRightSideCurvyLines(x,y,a,b){
+			var count=1;
+			for(var i=0;i<411;i+=20)
+			{
+				ctx.beginPath(); 
+				ctx.moveTo(x+145,y+180+i/4);
+				ctx.quadraticCurveTo(x+350+i+3*a,y+100+i+3*b,x+700+i,y-320+6*i);
+				ctx.strokeStyle=getFillStyle(count);
+	   		 	count++;
+				ctx.lineWidth=30;
+				ctx.stroke();
+
+			}
+			
+		}
+
+		function drawLeftSideCurvyLines(x,y,a,b){
+			//left curvy lines
+			var count=1;
+			for(var i=0;i<261;i+=20){
+				ctx.beginPath(); 		
+				ctx.moveTo(x-130,y-180-i/4);
+				ctx.quadraticCurveTo(x-600-i+3*a,y-20-i+3*b,-60-i,canvas.height-100-10*i);
+				ctx.strokeStyle=getFillStyle(count);
+	   		 	count++;	
+				ctx.lineWidth=30;
+				ctx.stroke();
+			}
+		}
+
+		function drawMiddleSideCurvyLines(x,y,a,b){
+			//middle curvy lines
+
+			var count=1;
+			for(var i=0;i<71;i+=10){
+				ctx.beginPath(); 		
+				ctx.moveTo(x-120-i,y-135-2*i);
+				ctx.quadraticCurveTo(x-10-i+3*a,y-200-i+3*b,x+250+i,y-320-6*i);
+				ctx.strokeStyle=getFillStyle(count);
+			    count++;
+				ctx.lineWidth=20;
+				ctx.stroke();
+			}
+		}
+
+		if(window.DeviceMotionEvent)
+			 window.addEventListener("devicemotion", handleMotionEvent, true);
+		else
+			console.log('Device motion not suported');
+
+		</script>
+
+
+	</div>
+	</body>
+
+</html>
